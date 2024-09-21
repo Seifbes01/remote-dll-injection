@@ -1,5 +1,7 @@
 from ctypes import *
 from ctypes import wintypes
+from GetPid import get_pid
+
 
 kernel32 = windll.kernel32
 LPCSTR = c_char_p
@@ -42,7 +44,13 @@ EXECUTE_IMMEDIATELY = 0x0
 PROCESS_ALL_ACCESS = (0x000F0000 | 0x00100000 | 0x00000FFF)
 
 dll= b"D:\\Pentest\\python\\python_projects\\hello-world-x64.dll"
-pid = 18784
+pid = get_pid("notepad.exe")
+
+if pid:
+    print(f"PID of notepad: {pid}")
+else:
+    print("Notepad is not running.")
+    
 handle = OpenProcess(PROCESS_ALL_ACCESS, False, pid)
 if not handle:
     raise WinError()
